@@ -1,4 +1,3 @@
 appId: com.google.android.calculator
 ---
-- launchApp:
-    clearState: true
+- launchApp
