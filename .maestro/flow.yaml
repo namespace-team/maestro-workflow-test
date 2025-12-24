@@ -1,0 +1,4 @@
+appId: com.miui.calculator
+---
+- launchApp:
+    clearState: true
