@@ -1,4 +1,4 @@
-appId: com.miui.calculator
+appId: com.google.android.calculator
 ---
 - launchApp:
     clearState: true
