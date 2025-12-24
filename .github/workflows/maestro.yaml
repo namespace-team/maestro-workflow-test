@@ -2,7 +2,7 @@ name: Maestro UI Tests
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main, runner ]
   pull_request:
     branches: [ main ]
 
