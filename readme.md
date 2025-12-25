@@ -5,4 +5,4 @@
 
 ### adb test
 - adb devices
-- adb shell pm list packages | grep calculator
+- adb shell pm list packages | grep deskclock
