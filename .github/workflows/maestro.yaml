@@ -48,6 +48,10 @@ jobs:
             adb wait-for-device
             adb shell getprop sys.boot_completed
 
+            # Debug: List all installed packages and grep for anything clock-related
+            echo "=== Installed packages containing 'clock' or 'deskclock' ==="
+            adb shell pm list packages | grep -i clock || echo "No clock packages found"
+
             # Launch the app after emulator is ready
             maestro test .maestro/flow.yaml
       # 4. Success Notification
