@@ -1,4 +1,3 @@
-appId: com.android.calculator2
+appId: com.google.android.deskclock
 ---
-- startApp:
-    appId: com.android.calculator2
+- launchApp
