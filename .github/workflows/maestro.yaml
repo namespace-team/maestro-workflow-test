@@ -50,7 +50,7 @@ jobs:
 
             # Debug: List all installed packages and grep for anything clock-related
             echo "=== Installed packages containing 'clock' or 'deskclock' ==="
-            adb shell pm list packages | grep -i clock || echo "No clock packages found"
+            adb shell pm list packages
 
             # Launch the app after emulator is ready
             maestro test .maestro/flow.yaml
