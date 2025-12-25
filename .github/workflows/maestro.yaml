@@ -2,15 +2,14 @@ name: Maestro UI Tests
 
 on:
   push:
-    branches: [ main, runner ]
+    branches: [main, runner]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   mobile-tests:
     runs-on: ubuntu-latest
-    # Timeout is important because emulators can sometimes hang
-    timeout-minutes: 30 
+    timeout-minutes: 30 # Timeout is important because emulators can sometimes hang
 
     steps:
       - name: Checkout Code
@@ -19,8 +18,8 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
-          distribution: 'temurin'
+          java-version: "17"
+          distribution: "temurin"
 
       # 1. Enable hardware acceleration (KVM) for the emulator
       - name: Enable KVM group permissions
@@ -42,25 +41,31 @@ jobs:
           api-level: 29
           arch: x86_64
           disable-animations: true
-          # Replace 'app-debug.apk' and 'flow.yaml' with your actual paths
-          script: maestro test .maestro/flow.yaml
+          # Specify the AVD name
+          avd-name: test
+          script: |
+            # Wait for Emulator to be fully ready
+            adb wait-for-device
+            adb shell getprop sys.boot_completed
 
+            # Launch the app after emulator is ready
+            maestro test .maestro/flow.yaml
       # 4. Success Notification
-      - name: Slack Notification - Success
-        if: success()
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_COLOR: 'good'
-          SLACK_TITLE: "Maestro: PASSED ✅"
-          SLACK_MESSAGE: "Tests passed on ${{ github.ref_name }}"
+      # - name: Slack Notification - Success
+      #   if: success()
+      #   uses: rtCamp/action-slack-notify@v2
+      #   env:
+      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #     SLACK_COLOR: 'good'
+      #     SLACK_TITLE: "Maestro: PASSED ✅"
+      #     SLACK_MESSAGE: "Tests passed on ${{ github.ref_name }}"
 
       # 5. Failure Notification
-      - name: Slack Notification - Failure
-        if: failure()
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_COLOR: 'danger'
-          SLACK_TITLE: "Maestro: FAILED ❌"
-          SLACK_MESSAGE: "UI Tests failed! Check logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+      # - name: Slack Notification - Failure
+      #   if: failure()
+      #   uses: rtCamp/action-slack-notify@v2
+      #   env:
+      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #     SLACK_COLOR: 'danger'
+      #     SLACK_TITLE: "Maestro: FAILED ❌"
+      #     SLACK_MESSAGE: "UI Tests failed! Check logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
