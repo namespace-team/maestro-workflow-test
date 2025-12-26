@@ -46,6 +46,7 @@ jobs:
           script: |
             # Wait for Emulator to be fully ready
             adb wait-for-device
+            adb install 47.apk
             adb shell getprop sys.boot_completed
 
             # Debug: List all installed packages and grep for anything clock-related
