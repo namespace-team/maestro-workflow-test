@@ -54,4 +54,8 @@ jobs:
             adb shell pm list packages
 
             # Launch the app after emulator is ready
+            adb shell screenrecord /sdcard/recording.mp4 &
+            RECORD_PID=$!
             maestro test sourcefiles/flows/suites/regression.yaml
+            kill -INT $RECORD_PID
+            adb pull /sdcard/recording.mp4 .
