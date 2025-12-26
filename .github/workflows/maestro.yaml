@@ -54,7 +54,7 @@ jobs:
             adb shell pm list packages
 
             # Launch the app after emulator is ready
-            maestro test .maestro/flow.yaml
+            maestro test src/flows/suites/regression.yaml
       # 4. Success Notification
       # - name: Slack Notification - Success
       #   if: success()
