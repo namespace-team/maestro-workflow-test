@@ -54,24 +54,4 @@ jobs:
             adb shell pm list packages
 
             # Launch the app after emulator is ready
-      - name: Run maestro test
-        run: maestro test sourcefiles/flows/suites/regression.yaml
-      # 4. Success Notification
-      # - name: Slack Notification - Success
-      #   if: success()
-      #   uses: rtCamp/action-slack-notify@v2
-      #   env:
-      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-      #     SLACK_COLOR: 'good'
-      #     SLACK_TITLE: "Maestro: PASSED ✅"
-      #     SLACK_MESSAGE: "Tests passed on ${{ github.ref_name }}"
-
-      # 5. Failure Notification
-      # - name: Slack Notification - Failure
-      #   if: failure()
-      #   uses: rtCamp/action-slack-notify@v2
-      #   env:
-      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-      #     SLACK_COLOR: 'danger'
-      #     SLACK_TITLE: "Maestro: FAILED ❌"
-      #     SLACK_MESSAGE: "UI Tests failed! Check logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            maestro test sourcefiles/flows/suites/regression.yaml
