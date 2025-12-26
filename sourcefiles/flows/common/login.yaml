@@ -20,6 +20,7 @@ appId: jp.merhamo.mobile.staging
 - hideKeyboard
 - tapOn:
     id: loginButton
+    waitToSettleTimeoutMs: 2000
 # send email forgot password with random email/ invalid
 - tapOn:
     id: forgotPasswordButton
