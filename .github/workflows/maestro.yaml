@@ -35,7 +35,7 @@ jobs:
           echo "$HOME/.maestro/bin" >> $GITHUB_PATH
 
       # 3. Run Android Emulator and Maestro Tests
-      - name: Run Maestro Tests
+      - name: Prepare Maestro Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
@@ -54,7 +54,8 @@ jobs:
             adb shell pm list packages
 
             # Launch the app after emulator is ready
-            maestro test src/flows/suites/regression.yaml
+      - name: Run maestro test
+        run: maestro test src/flows/suites/regression.yaml
       # 4. Success Notification
       # - name: Slack Notification - Success
       #   if: success()
