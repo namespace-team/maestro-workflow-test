@@ -44,3 +44,14 @@ jobs:
           # Specify the AVD name
           avd-name: test
           script: bash run_script.sh
+      
+      - name: Upload Video to Slack
+        if: always() # Ensures the video is sent even if the tests failed
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          method: files.uploadV2
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel_id: "GSFHH2TCP"
+            initial_comment: "📺 *Maestro Test Result*: ${{ job.status }}\n🌿 *Branch*: `${{ github.ref_name }}`\n📝 *Commit*: ${{ github.event.head_commit.message }}"
+            file: "recording.mp4"
