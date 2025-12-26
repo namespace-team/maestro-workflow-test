@@ -53,5 +53,6 @@ jobs:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload: |
             channel_id: "GSFHH2TCP"
-            initial_comment: "📺 *Maestro Test Result*: ${{ job.status }}\n🌿 *Branch*: `${{ github.ref_name }}`\n📝 *Commit*: ${{ github.event.head_commit.message }}"
+            initial_comment: "📺 *Maestro Test Result*: ${{ job.status }}\n🌿 *Branch*: `${{ github.ref_name }}`"
             file: "recording.mp4"
+            filename: "test-recording.mp4"

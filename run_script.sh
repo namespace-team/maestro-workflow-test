@@ -20,7 +20,8 @@ cleanup() {
   kill -INT $RECORD_PID || true
   sleep 2
   echo "Pulling video..."
-  adb pull /sdcard/recording.mp4 . || echo "Video not found"
+  adb pull /sdcard/recording.mp4 .
+  ls -lh recording.mp4  # This will log the file size in GitHub Actions
 }
 
 # Set the trap to run the function on exit
