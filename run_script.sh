@@ -20,19 +20,19 @@ echo "Recording started with PID: $RECORD_PID"
 # 2. The Cleanup Function
 cleanup() {
   echo "Test finished. Finalizing video..."
-  
-  # Send SIGINT (like pressing Ctrl+C) to stop recording gracefully
   kill -2 $RECORD_PID || true
-  
-  # CRITICAL: Wait for the emulator to finish writing the MP4 header
-  # On GitHub Actions, 10 seconds is the "sweet spot" for slow CPUs
   sleep 10
   
-  echo "Pulling video from emulator..."
-  adb pull /sdcard/recording.mp4 . || echo "Failed to pull video"
+  echo "Pulling video..."
+  adb pull /sdcard/recording.mp4 raw_recording.mp4 || echo "Pull failed"
   
-  # Verify file size in logs (If it's > 0, it worked!)
-  ls -lh recording.mp4 || echo "Video file is missing from runner disk"
+  # NEW: Fix the MP4 structure for web streaming (Slack)
+  # This moves the metadata to the start of the file
+  if [ -f raw_recording.mp4 ]; then
+    echo "Optimizing video for Slack..."
+    ffmpeg -i raw_recording.mp4 -c copy -movflags +faststart recording.mp4
+    ls -lh recording.mp4
+  fi
 }
 
 # 3. Ensure cleanup runs even if Maestro fails
