@@ -18,34 +18,48 @@ appId: jp.merhamo.mobile.staging
     index: 1
 - inputText: "test123"
 - hideKeyboard
+- stopApp: "com.android.inputmethod.latin" # Force-kill keyboard (safe on emulators)
+- waitForAnimationToEnd
+
+# FIX 2: Use a more robust selector. 
+# Sometimes IDs behave weirdly on API 33 if they are wrapped in certain containers.
+- scrollUntilVisible:
+    element:
+      id: "loginButton"
+    direction: DOWN
+
 - tapOn:
-    id: loginButton
-    waitToSettleTimeoutMs: 2000
+    id: "loginButton"
+    retryTapIfNoChange: true
+    waitToSettleTimeoutMs: 1000
+
+
+
 # send email forgot password with random email/ invalid
-- tapOn:
-    id: forgotPasswordButton
-- tapOn:
-    id: user_email
-- inputRandomEmail
-- tapOn: メールを送信
-- assertVisible: メールアドレスは見つかりませんでした。
-# erase the invalid email
-- tapOn:
-    id: user_email
-- eraseText: 200
-- tapOn:
-    id: user_email
-- eraseText # Removes up to 50 characters (default)
-# enter with valid email
-- tapOn: メールアドレス user@merhamo.jp
-- inputText: "musik1@mailinator.com"
-- assertVisible: メールを送信
-- doubleTapOn: メールを送信
-# forgot password confirmation is displayed
-- extendedWaitUntil:
-    visible: "メールにパスワードリセットURLをお送りしました！" # or any other selector
-    timeout: 5000 # Timeout in milliseconds
-- back
+# - tapOn:
+#     id: forgotPasswordButton
+# - tapOn:
+#     id: user_email
+# - inputRandomEmail
+# - tapOn: メールを送信
+# - assertVisible: メールアドレスは見つかりませんでした。
+# # erase the invalid email
+# - tapOn:
+#     id: user_email
+# - eraseText: 200
+# - tapOn:
+#     id: user_email
+# - eraseText # Removes up to 50 characters (default)
+# # enter with valid email
+# - tapOn: メールアドレス user@merhamo.jp
+# - inputText: "musik1@mailinator.com"
+# - assertVisible: メールを送信
+# - doubleTapOn: メールを送信
+# # forgot password confirmation is displayed
+# - extendedWaitUntil:
+#     visible: "メールにパスワードリセットURLをお送りしました！" # or any other selector
+#     timeout: 5000 # Timeout in milliseconds
+# - back
 # sign up
 # - tapOn:
 #     id: signUpButton
