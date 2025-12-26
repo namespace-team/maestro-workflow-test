@@ -21,17 +21,19 @@ echo "Recording started with PID: $RECORD_PID"
 cleanup() {
   echo "Test finished. Finalizing video..."
   kill -2 $RECORD_PID || true
-  sleep 10
+  
+  # Give it a long enough rest to finalize the file on the emulator
+  sleep 10 
   
   echo "Pulling video..."
-  adb pull /sdcard/recording.mp4 raw_recording.mp4 || echo "Pull failed"
+  # Pull directly to the name Slack expects
+  adb pull /sdcard/recording.mp4 recording.mp4 || echo "Pull failed"
   
-  # NEW: Fix the MP4 structure for web streaming (Slack)
-  # This moves the metadata to the start of the file
-  if [ -f raw_recording.mp4 ]; then
-    echo "Optimizing video for Slack..."
-    ffmpeg -i raw_recording.mp4 -c copy -movflags +faststart recording.mp4
-    ls -lh recording.mp4
+  if [ -f recording.mp4 ]; then
+     echo "Video pulled successfully."
+     ls -lh recording.mp4
+  else
+     echo "ERROR: recording.mp4 not found!"
   fi
 }
 
