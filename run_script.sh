@@ -1,48 +1,35 @@
 #!/bin/bash
-# Wait for Emulator to be fully ready
+
+# 1. Wait for Emulator and Setup
 adb wait-for-device
 adb install 47.apk
-adb shell getprop sys.boot_completed
 
-# Debug: List all installed packages and grep for anything clock-related
-echo "=== Installed packages containing 'clock' or 'deskclock' ==="
-adb shell pm list packages
-
-# Launch the app after emulator is ready
-#!/bin/bash
-
-# 1. Start recording with a lower bitrate (easier for CI to process)
-# We save the recording to the emulator's /sdcard/
+# 2. Start recording
+# Ensure any old recording is deleted first
+adb shell rm /sdcard/recording.mp4 || true
 adb shell screenrecord --bit-rate 2000000 --time-limit 180 /sdcard/recording.mp4 &
 RECORD_PID=$!
 echo "Recording started with PID: $RECORD_PID"
 
-# 2. The Cleanup Function
+# 3. Cleanup Function
 cleanup() {
   echo "Test finished. Finalizing video..."
   kill -2 $RECORD_PID || true
-  
-  # Give it a long enough rest to finalize the file on the emulator
-  sleep 10 
+  sleep 10 # Essential for MP4 header finalization
   
   echo "Pulling video..."
-  # Pull directly to the name Slack expects
   adb pull /sdcard/recording.mp4 recording.mp4 || echo "Pull failed"
   
   if [ -f recording.mp4 ]; then
-     echo "Video pulled successfully."
+     echo "Video pulled successfully. Size:"
      ls -lh recording.mp4
   else
-     echo "ERROR: recording.mp4 not found!"
+     echo "ERROR: recording.mp4 was not created."
   fi
 }
 
-# 3. Ensure cleanup runs even if Maestro fails
 trap cleanup EXIT
 
-# 4. Wait for the app to be fully ready before starting tests
-echo "Waiting for app to settle..."
-sleep 5
-
-# 5. Run Maestro
+# 4. Run Maestro
+echo "Starting Maestro tests..."
 maestro test sourcefiles/flows/suites/regression.yaml

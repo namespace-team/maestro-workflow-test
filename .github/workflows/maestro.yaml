@@ -55,3 +55,5 @@ jobs:
             channel_id: "GSFHH2TCP"
             initial_comment: "📺 *Maestro Test Result*: ${{ job.status }}\n🌿 *Branch*: `${{ github.ref_name }}`"
             file: "recording.mp4"
+            filename: "recording.mp4"
+            filetype: "mp4"
