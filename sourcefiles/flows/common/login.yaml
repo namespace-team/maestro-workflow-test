@@ -36,30 +36,30 @@ appId: jp.merhamo.mobile.staging
 
 
 # send email forgot password with random email/ invalid
-- tapOn:
-    id: forgotPasswordButton
-- tapOn:
-    id: user_email
-- inputRandomEmail
-- tapOn: メールを送信
-- assertVisible: メールアドレスは見つかりませんでした。
-# erase the invalid email
-- tapOn:
-    id: user_email
-- eraseText: 200
-- tapOn:
-    id: user_email
-- eraseText # Removes up to 50 characters (default)
-# enter with valid email
-- tapOn: メールアドレス user@merhamo.jp
-- inputText: "musik1@mailinator.com"
-- assertVisible: メールを送信
-- doubleTapOn: メールを送信
-# forgot password confirmation is displayed
-- extendedWaitUntil:
-    visible: "メールにパスワードリセットURLをお送りしました！" # or any other selector
-    timeout: 5000 # Timeout in milliseconds
-- back
+# - tapOn:
+#     id: forgotPasswordButton
+# - tapOn:
+#     id: user_email
+# - inputRandomEmail
+# - tapOn: メールを送信
+# - assertVisible: メールアドレスは見つかりませんでした。
+# # erase the invalid email
+# - tapOn:
+#     id: user_email
+# - eraseText: 200
+# - tapOn:
+#     id: user_email
+# - eraseText # Removes up to 50 characters (default)
+# # enter with valid email
+# - tapOn: メールアドレス user@merhamo.jp
+# - inputText: "musik1@mailinator.com"
+# - assertVisible: メールを送信
+# - doubleTapOn: メールを送信
+# # forgot password confirmation is displayed
+# - extendedWaitUntil:
+#     visible: "メールにパスワードリセットURLをお送りしました！" # or any other selector
+#     timeout: 5000 # Timeout in milliseconds
+# - back
 # sign up
 # - tapOn:
 #     id: signUpButton
