@@ -45,15 +45,10 @@ jobs:
           avd-name: test
           script: bash run_script.sh
       
-      - name: Upload Video to Slack
-        if: always() # Ensures the video is sent even if the tests failed
-        uses: slackapi/slack-github-action@v2.0.0
+      - name: Upload Maestro Video to Artifacts
+        if: always() # Ensures you get the video even if tests fail
+        uses: actions/upload-artifact@v4
         with:
-          method: files.uploadV2
-          token: ${{ secrets.SLACK_BOT_TOKEN }}
-          payload: |
-            channel_id: "GSFHH2TCP"
-            initial_comment: "📺 *Maestro Test Result*: ${{ job.status }}\n🌿 *Branch*: `${{ github.ref_name }}`"
-            file: "recording.mp4"
-            filename: "recording.mp4"
-            filetype: "mp4"
+          name: maestro-test-recording
+          path: recording.mp4
+          retention-days: 5 # Saves storage space
