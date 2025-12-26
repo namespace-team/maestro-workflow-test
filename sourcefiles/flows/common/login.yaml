@@ -1,0 +1,127 @@
+appId: jp.merhamo.mobile.staging
+---
+- launchApp:
+    clearState: true
+# login with empty email and password
+- tapOn:
+    id: loginButton
+# removing the flash error message
+- tapOn:
+    id: forgotPasswordButton
+- back
+# login with invalid email
+- tapOn:
+    id: container
+- inputRandomEmail
+- tapOn:
+    id: container
+    index: 1
+- inputText: "test123"
+- hideKeyboard
+- tapOn:
+    id: loginButton
+# send email forgot password with random email/ invalid
+- tapOn:
+    id: forgotPasswordButton
+- tapOn:
+    id: user_email
+- inputRandomEmail
+- tapOn: メールを送信
+- assertVisible: メールアドレスは見つかりませんでした。
+# erase the invalid email
+- tapOn:
+    id: user_email
+- eraseText: 200
+- tapOn:
+    id: user_email
+- eraseText # Removes up to 50 characters (default)
+# enter with valid email
+- tapOn: メールアドレス user@merhamo.jp
+- inputText: "musik1@mailinator.com"
+- assertVisible: メールを送信
+- doubleTapOn: メールを送信
+# forgot password confirmation is displayed
+- extendedWaitUntil:
+    visible: "メールにパスワードリセットURLをお送りしました！" # or any other selector
+    timeout: 5000 # Timeout in milliseconds
+- back
+# sign up
+# - tapOn:
+#     id: signUpButton
+# - scroll
+# # submit sign up with empty fields
+# - tapOn:
+#     text: 新規登録
+#     index: 1
+# # submit with valid data
+# - tapOn:
+#     id: user_email
+# - inputRandomEmail
+# - hideKeyboard
+# - tapOn:
+#     text: 選択してください
+#     index: 1
+# - tapOn: 北海道
+# - tapOn: パスワード ••••••••
+# - inputText: "Seneng@12"
+# - tapOn: パスワード確認 ••••••••
+# - inputText: "Seneng@12"
+# - hideKeyboard
+# - scroll
+# - tapOn:
+#     id: user_accepted_terms
+# - tapOn: 新規登録
+# - extendedWaitUntil:
+#     visible: "メールアドレスを認証してください" # or any other selector
+#     timeout: 20000 # Timeout in milliseconds
+# - back
+# # login with valid email
+# - tapOn:
+#     id: input
+# - eraseText: 200
+# - tapOn:
+#     id: input
+# - eraseText
+# - inputText: "musik1@mailinator.com"
+# - tapOn:
+#     id: container
+#     index: 1
+# - eraseText
+# - inputText: "Seneng12"
+# - hideKeyboard
+# - tapOn:
+#     id: loginButton
+# # successfully login
+# # assert the message screen
+# - assertVisible: メッセージ
+# - scroll
+# - tapOn: melhamo
+# # Tap Job details
+# - tapOn:
+#     id: jobDetailsButton
+# - extendedWaitUntil:
+#     visible: "案件詳細" # or any other selector
+#     timeout: 5000 # Timeout in milliseconds
+# - scroll
+# - back
+# # Tap client details
+# - tapOn:
+#     id: clientDetailsButton
+# - assertVisible: クライアント
+# - scroll
+# - back
+# # send message
+# - tapOn: メッセージを入力
+# - inputText: "new message"
+# - tapOn:
+#     id: sendButton
+# - tapOn:
+#     id: backButton
+# - extendedWaitUntil:
+#     visible: "プロフィール" # or any other selector
+#     timeout: 5000 #
+# # tap profile
+# - tapOn: プロフィール
+# # tap log out
+# - tapOn:
+#     id: logoutButton

@@ -55,7 +55,7 @@ jobs:
 
             # Launch the app after emulator is ready
       - name: Run maestro test
-        run: maestro test src/flows/suites/regression.yaml
+        run: maestro test sourcefiles/flows/suites/regression.yaml
       # 4. Success Notification
       # - name: Slack Notification - Success
       #   if: success()

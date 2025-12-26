@@ -1,0 +1,3 @@
+appId: jp.merhamo.mobile.staging
+---
+- runFlow: ../common/login.yaml
