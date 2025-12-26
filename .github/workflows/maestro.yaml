@@ -54,8 +54,21 @@ jobs:
             adb shell pm list packages
 
             # Launch the app after emulator is ready
-            adb shell screenrecord /sdcard/recording.mp4 &
+            adb shell screenrecord --time-limit 180 /sdcard/recording.mp4 &
             RECORD_PID=$!
+            echo "Recording started (PID: $RECORD_PID)"
+
+            # 2. Define a cleanup function
+            # This runs automatically when the script finishes or fails
+            cleanup() {
+              echo "Stopping recording..."
+              kill -INT $RECORD_PID || true
+              sleep 2
+              echo "Pulling video..."
+              adb pull /sdcard/recording.mp4 . || echo "Video file not found"
+            }
+            trap cleanup EXIT
+
+            # 3. Run Maestro
+            # If this fails, 'trap' still triggers the cleanup() function
             maestro test sourcefiles/flows/suites/regression.yaml
-            kill -INT $RECORD_PID
-            adb pull /sdcard/recording.mp4 .
